@@ -138,8 +138,3 @@ function createMap(quakeMarkers) {
 legend.addTo(myMap);
 
 }
-
-
-
-
-
