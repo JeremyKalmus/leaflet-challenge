@@ -25,7 +25,7 @@ function createFeatures(earthquakeData) {
       color: "#000000",
       weight: .1,
       fillColor: colorPicker(depth),
-      fillOpacity: feature.properties.mag * .10,
+      fillOpacity: feature.properties.mag * .15,
       radius: feature.properties.mag * 20000,
       interactive: true,
       bubblingMouseEvents: true
@@ -75,12 +75,12 @@ function colorPicker(depth) {
 function createMap(quakeMarkers) {
 
   // Define streetmap and darkmap layers
-  var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+  var satellite = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
     tileSize: 512,
     maxZoom: 18,
     zoomOffset: -1,
-    id: "mapbox/streets-v11",
+    id: "mapbox/satellite-v9",
     accessToken: API_KEY
   });
 
@@ -102,9 +102,9 @@ function createMap(quakeMarkers) {
 
         L.geoJson(data, {
           color : 'white',
-          weight: 2,
+          weight: 1.5,
           opacity: .25,
-          fillOpacity: .01
+          fillOpacity: 0
         }
       ).addTo(plateBoundarys)
   });
@@ -114,7 +114,7 @@ function createMap(quakeMarkers) {
 
   // Define a baseMaps object to hold our base layers
   var baseMaps = {
-    "Street Map": streetmap,
+    "Satellite": satellite,
     "Dark Map": darkmap
   };
 
