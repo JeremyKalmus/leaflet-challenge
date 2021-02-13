@@ -67,6 +67,11 @@ function colorPicker(depth) {
 };
 
 
+
+
+
+
+
 function createMap(quakeMarkers) {
 
   // Define streetmap and darkmap layers
@@ -86,7 +91,26 @@ function createMap(quakeMarkers) {
     accessToken: API_KEY
   });
 
+
+  var geoData = "tectonicplates-master/GeoJSON/PB2002_plates.json";
+
+  var plateBoundarys = L.layerGroup();
+
+  d3.json(geoData, function(data) {
+    console.log(data.features);
+
+
+        L.geoJson(data, {
+          color : 'white',
+          weight: 2,
+          opacity: .25,
+          fillOpacity: .01
+        }
+      ).addTo(plateBoundarys)
+  });
+
   var quakeCircles = L.layerGroup(quakeMarkers);
+  
 
   // Define a baseMaps object to hold our base layers
   var baseMaps = {
@@ -96,7 +120,8 @@ function createMap(quakeMarkers) {
 
   // Create overlay object to hold our overlay layer
   var overlayMaps = {
-     "Earthquakes By Magnitude": quakeCircles
+     "Earthquakes By Magnitude": quakeCircles,
+     "plate boundary": plateBoundarys
   };
 
   // Create our map, giving it the streetmap and earthquakes layers to display on load
@@ -104,8 +129,9 @@ function createMap(quakeMarkers) {
     center: [
       37.09, -95.71
     ],
-    zoom: 3,
-    layers: [darkmap, quakeCircles]
+    zoom: 4,
+    layers: [darkmap, plateBoundarys, quakeCircles ]
+     
   });
 
   // Create a layer control
